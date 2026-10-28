@@ -4,6 +4,7 @@ import numpy as np
 
 # Add python_code directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'code'))
+# pyrefly: ignore[missing-import]
 from NDP_Kmeans import NDP_Kmeans
 
 # Ensure results folder exists
@@ -16,7 +17,7 @@ datasets = [
     ('agg.txt', 7, 0.0),
     ('db2.txt', 2, 0.0),
     ('cth.txt', 2, 0.0),
-    ('ls.txt', 2, 0.0),
+    ('ls.txt', 6, 0.0),
 ]
 
 for filename, k, alpha in datasets:

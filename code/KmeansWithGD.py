@@ -5,22 +5,6 @@
 
 import numpy as np
 def KmeansWithGD(data, centers, num_clusters, graphdist, rho):
-    # dist is the shortest-path-based distance between core points
-    # A is the local core points / density peaks, Ncores*d
-    # cl is the kmeans clustering result, class label of each local core point
-    #
-    #   Input    : data           : Local core points / density peaks, Ncores*d,
-    #                               D is the number of dimensions
-    #              centers        : K-by-D matrix, where K is num_clusters, or
-    #                               'random', random initialization, or
-    #                               [], empty matrix, orthogonal initialization
-    #              num_clusters   : Number of clusters
-    #
-    #   Output   : cluster_labels : N-by-1 vector of cluster assignment
-    #
-    # Parameter setting
-    #
-    # tic;
     iter = 0
     qold = np.inf
     threshold = 0.00000001
@@ -43,10 +27,7 @@ def KmeansWithGD(data, centers, num_clusters, graphdist, rho):
     while iter <= 100:
         iter = iter + 1
         # Find the closest cluster for each data point, i.e., partition non-center points
-        # [val, ind] = min(P, [], 1);
         ind = np.argmin(P, axis=0)
-        # input('Press enter');
-        # drawcluster2(data,ind,num_clusters);
         # update centers
         clusters = [None] * num_clusters
         for i in range(num_clusters):
@@ -66,18 +47,13 @@ def KmeansWithGD(data, centers, num_clusters, graphdist, rho):
         P = graphdist[centers, :]
         # Calculate objective function value
         qnew = float(np.sum(P[ind, np.arange(n)]))
-        # mesg = sprintf('Iteration %d:\n\tQold=%g\t\tQnew=%g', iter, full(qold), full(qnew));
-        # disp(mesg);
-
         # Check if objective function value is less than/equal to threshold
         if qold != np.inf and threshold >= abs((qnew - qold) / qold):
-            # mesg = sprintf('\nkmeans converged!');
-            # disp(mesg);
             break
         qold = qnew
 
     ######################################################################
-    cluster_labels = ind + 1  # 1-based cluster assignment to match MATLAB
+    cluster_labels = ind + 1
     ncluster = np.max(cluster_labels)
     return cluster_labels
 

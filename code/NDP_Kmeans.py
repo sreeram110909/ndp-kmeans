@@ -16,23 +16,22 @@ from scipy.sparse.csgraph import minimum_spanning_tree, shortest_path as csgraph
 from scipy.sparse import csr_matrix
 import matplotlib.pyplot as plt
 
+
 from NDP_Searching import NDP_Searching
 from KmeansWithGD import KmeansWithGD
 from drawcluster_ndpkmeans import drawcluster_ndpkmeans
 
 
 def NDP_Kmeans(A, num_clusters, alpha, save_name='cluster_result.jpg'):
-    # A: The data set n*d
-
-    t_start = time.time()  # tic;
+    t_start = time.time() 
     N, dim = A.shape
     print('Searching NDPs......')
     index, supk, nb, rho, local_core, cores, cl, cluster_number = NDP_Searching(A)
-    rho_sorted = np.sort(rho)  # [rho_sorted,~]=sort(rho,'ascend');
+    rho_sorted = np.sort(rho)
     if alpha == 0:
         rho_threshold = 0.0
     else:
-        rho_threshold = rho_sorted[int(np.floor(N * alpha))]  # %0;
+        rho_threshold = rho_sorted[int(np.floor(N * alpha))]
 
     ##################################################################
     # eliminate low density NDPs
@@ -46,7 +45,6 @@ def NDP_Kmeans(A, num_clusters, alpha, save_name='cluster_result.jpg'):
                         x = A[cores[i], :]
                         y = A[cores[j], :]
                         distance = np.sqrt(np.sum((x - y) ** 2))
-                        # distance=pdist2(A(cores(i),:),A(cores(j),:));
                         if mind > distance and rho[cores[j]] > rho_threshold:
                             mind = distance
                             p = j
@@ -119,7 +117,7 @@ def NDP_Kmeans(A, num_clusters, alpha, save_name='cluster_result.jpg'):
             numinset1 = len(inset1)
             sharedCount[i, j] = numinset1
             sharedCount[j, i] = numinset1
-            if numinset1 == 0:  # &&numinset2==0
+            if numinset1 == 0:
                 core_dist[i, j] = maxd * (core_dist[i, j] + 1)
                 core_dist[j, i] = core_dist[i, j]
             else:
@@ -129,8 +127,6 @@ def NDP_Kmeans(A, num_clusters, alpha, save_name='cluster_result.jpg'):
 
     # Compute minimum spanning tree between local core points
     SD = csr_matrix(core_dist)
-    # UG=tril(SD);
-    # [ST,pred] = graphminspantree(UG,'METHOD','Prim');
     ST = minimum_spanning_tree(SD)
     ST2 = ST.toarray()
     ST2 = ST2 + ST2.T
@@ -146,7 +142,7 @@ def NDP_Kmeans(A, num_clusters, alpha, save_name='cluster_result.jpg'):
     for i in range(N):
         cl2[i] = cl2[local_core[i]]
 
-    t_elapsed = time.time() - t_start  # toc;
+    t_elapsed = time.time() - t_start
     print(f'Elapsed time is {t_elapsed:.6f} seconds.')
     print('Program complete!')
     plt.figure()
