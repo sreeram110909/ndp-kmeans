@@ -48,7 +48,7 @@ def KmeansWithGD(data, centers, num_clusters, graphdist, rho):
         # Calculate objective function value
         qnew = float(np.sum(P[ind, np.arange(n)]))
         # Check if objective function value is less than/equal to threshold
-        if qold != np.inf and threshold >= abs((qnew - qold) / qold):
+        if qold != np.inf and threshold >= abs((qnew - qold) / (qold)):
             break
         qold = qnew
 
@@ -56,34 +56,6 @@ def KmeansWithGD(data, centers, num_clusters, graphdist, rho):
     cluster_labels = ind + 1
     ncluster = np.max(cluster_labels)
     return cluster_labels
-
-
-# -----------------------------------------------------------------------------
-def random_init(data, num_clusters):
-    # RANDOM_INIT Initialize centroids choosing num_clusters rows of data at random
-    #
-    #   Input : data         : N-by-D data matrix, where N is the number of data,
-    #                          D is the number of dimensions
-    #           num_clusters : Number of clusters
-    #
-    #   Output: init_centers : K-by-D matrix, where K is num_clusters
-    idx = np.random.randint(0, data.shape[0], size=num_clusters)
-    init_centers = data[idx, :]
-    return init_centers
-
-
-# --------------------------------------------------------------------------
-def random_init2(data, num_clusters):
-    # RANDOM_INIT Initialize centroids choosing num_clusters rows of data at random
-    #
-    #   Input : data         : N-by-D data matrix, where N is the number of data,
-    #                          D is the number of dimensions
-    #           num_clusters : Number of clusters
-    #
-    #   Output: centers : the ind of centers,K-by-1 matrix, where K is num_clusters
-    centers = np.random.randint(0, data.shape[0], size=num_clusters)
-    return centers
-
 
 # --------------------------------------------------------------------------
 def plus_init(core_dist, num_clusters, rho):

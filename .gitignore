@@ -17,5 +17,10 @@ env/
 venv/
 ENV/
 
+# Archives
+*.zip
+*.tar.gz
+
 # Output scratch files
 *.log
+

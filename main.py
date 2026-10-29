@@ -17,7 +17,7 @@ datasets = [
     ('agg.txt', 7, 0.0),
     ('db2.txt', 2, 0.0),
     ('cth.txt', 2, 0.0),
-    ('ls.txt', 6, 0.0),
+    ('ls.txt', 2, 0.0),
 ]
 
 for filename, k, alpha in datasets:
